@@ -1,0 +1,30 @@
+spring:
+  application:
+    name: payment-app
+  datasource:
+    url: jdbc:h2:mem:paymentdb;DB_CLOSE_DELAY=-1
+    username: sa
+    password:
+  jpa:
+    hibernate:
+      ddl-auto: update
+    open-in-view: false
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          # Keycloak realm that issues the access tokens (see docker-compose.yml).
+          issuer-uri: ${KEYCLOAK_ISSUER_URI:http://localhost:8180/realms/payments}
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+
+server:
+  port: 8080
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info

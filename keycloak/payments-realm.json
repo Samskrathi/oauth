@@ -1,0 +1,66 @@
+{
+  "realm": "payments",
+  "enabled": true,
+  "accessTokenLifespan": 300,
+  "clientScopes": [
+    {
+      "name": "basic",
+      "protocol": "openid-connect",
+      "attributes": { "include.in.token.scope": "false", "display.on.consent.screen": "false" },
+      "protocolMappers": [
+        {
+          "name": "sub",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-sub-mapper",
+          "config": { "access.token.claim": "true", "introspection.token.claim": "true" }
+        }
+      ]
+    },
+    {
+      "name": "payments.read",
+      "description": "Read payments",
+      "protocol": "openid-connect",
+      "attributes": { "include.in.token.scope": "true", "display.on.consent.screen": "false" }
+    },
+    {
+      "name": "payments.write",
+      "description": "Create, process, cancel and refund payments",
+      "protocol": "openid-connect",
+      "attributes": { "include.in.token.scope": "true", "display.on.consent.screen": "false" }
+    }
+  ],
+  "clients": [
+    {
+      "clientId": "payments-client",
+      "name": "Payments client (read + write)",
+      "enabled": true,
+      "protocol": "openid-connect",
+      "publicClient": false,
+      "clientAuthenticatorType": "client-secret",
+      "secret": "payments-client-secret",
+      "serviceAccountsEnabled": true,
+      "standardFlowEnabled": false,
+      "directAccessGrantsEnabled": false,
+      "defaultClientScopes": ["basic", "payments.read", "payments.write"],
+      "optionalClientScopes": []
+    },
+    {
+      "clientId": "payments-reader",
+      "name": "Payments reader (read only)",
+      "enabled": true,
+      "protocol": "openid-connect",
+      "publicClient": false,
+      "clientAuthenticatorType": "client-secret",
+      "secret": "payments-reader-secret",
+      "serviceAccountsEnabled": true,
+      "standardFlowEnabled": false,
+      "directAccessGrantsEnabled": false,
+      "defaultClientScopes": ["basic", "payments.read"],
+      "optionalClientScopes": []
+    }
+  ],
+  "users": [
+    { "username": "service-account-payments-client", "enabled": true, "serviceAccountClientId": "payments-client" },
+    { "username": "service-account-payments-reader", "enabled": true, "serviceAccountClientId": "payments-reader" }
+  ]
+}

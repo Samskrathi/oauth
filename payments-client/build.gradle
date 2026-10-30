@@ -1,0 +1,13 @@
+plugins {
+    id 'java-library'
+}
+
+dependencies {
+    // Shared contract (DTOs + validation annotations) and the HTTP client.
+    api 'jakarta.validation:jakarta.validation-api'
+    api 'org.springframework:spring-web'
+    api 'com.fasterxml.jackson.core:jackson-databind'
+    implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310'
+    // Fetches and refreshes OAuth2 access tokens (client-credentials flow).
+    implementation 'org.springframework.security:spring-security-oauth2-client'
+}
